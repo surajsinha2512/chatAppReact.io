@@ -6,14 +6,13 @@ const http = require('http');
 const server=http.createServer(app);
 let history=[];
 let users={};
-const socket_io = require('socket.io',{
+const socket_io = require('socket.io')
+const io=socket_io(server,{
   cors: {
-    origin: "http://localhost:3000/",
-    methods: ["GET", "POST"],
-     transport : ['websocket'] 
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"]
   }
 })
-const io=socket_io(server)
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });

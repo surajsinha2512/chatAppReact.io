@@ -7,7 +7,7 @@ function App() {
   const [chat,setChat]=useState("");
   const [name,setName]=useState("");
   const sendChat= ()=>{
-
+    sendChatToServer(chat)
   }
   const storeInput=(e)=>{
     setChat(e.target.value);
@@ -31,14 +31,17 @@ function App() {
 useEffect(()=>{
  fetch("http://localhost:9999/history").then(r=>r.json()).then((msg)=>{
    setMessages(msg)
+   console.log(msg)
  }).then(()=>{
+  console.log(messages)
 const inputName=prompt("enter your name");
 setName(inputName);
 socket.emit("Introduction",{user:inputName});
 
 socket.on('myBroadCast',(msg)=> {
   setMessages(m=>[...m,msg])
-  console.log(msg);
+  console.log('myBroadCast');
+  console.log(messages)
 });
  
 
@@ -46,7 +49,7 @@ socket.on('myBroadCast',(msg)=> {
 socket.on('broadcastIntro',(msg)=> {
  //addMessage(msg);
  setMessages(m=>[...m,msg]);
- 
+ console.log('broadcastIntro')
 });
 
 
@@ -66,7 +69,7 @@ socket.on('broadcastIntro',(msg)=> {
       })}</ul>
       <div  id="form" onKeyPress={sendOnEnter}>
       <input id="input" onChange={storeInput} autoComplete="off" value={chat}/>
-      <button onClick={sendOnEnter}>Send</button>
+      <button onClick={sendChat}>Send</button>
       </div>
     </div>
   );
