@@ -24,13 +24,14 @@ function App() {
     }
   }
 
- // const addMessage=msg=>{
-  //  setMessages([...messages,msg]);
- // }
+  const addMessage=msg=>{
+    setMessages([...messages,msg]);
+  }
 
 useEffect(()=>{
  fetch("http://localhost:9999/history").then(r=>r.json()).then((msg)=>{
-   setMessages(msg)
+  // setMessages(m=>[...m,msg])
+  addMessage(msg)
    console.log(msg)
  }).then(()=>{
   console.log(messages)
@@ -39,7 +40,8 @@ setName(inputName);
 socket.emit("Introduction",{user:inputName});
 
 socket.on('myBroadCast',(msg)=> {
-  setMessages(m=>[...m,msg])
+ // setMessages(m=>[...m,msg]);
+ addMessage(msg)
   console.log('myBroadCast');
   console.log(messages)
 });
@@ -47,12 +49,12 @@ socket.on('myBroadCast',(msg)=> {
 
 /// intro broadcast 
 socket.on('broadcastIntro',(msg)=> {
- //addMessage(msg);
- setMessages(m=>[...m,msg]);
+ addMessage(msg);
+// setMessages(m=>[...m,msg]);
  console.log('broadcastIntro')
 });
 
-
+console.log(messages)
 
  })
 },[]);
