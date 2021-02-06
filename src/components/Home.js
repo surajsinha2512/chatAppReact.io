@@ -3,6 +3,7 @@ const cors=require('cors')
 const app=express();
 app.use(cors());
 const http = require('http');
+const port =process.env.PORT || 9999;
 const server=http.createServer(app);
 let history=[];
 let users={};
@@ -59,6 +60,6 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
 });
 
-server.listen(9999,() => {
+server.listen(port,() => {
   console.log('listening on *:9999');
 })
